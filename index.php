@@ -18,15 +18,15 @@ try {
     $app = new App();
     $app->get('login', function (Request $req, Response $res, $args = []) {
         $loginObj = new UserLogin();
-        $userName = $req->getAttribute('user_name');
-        $passwd = $req->getAttribute('passwd');
+        $userName = $req->getParam('user_name');
+        $passwd = $req->getParam('passwd');
         $res = $loginObj->run($userName, $passwd);
         echo json_encode($res, JSON_UNESCAPED_UNICODE);
     });
     $app->run();
 } catch (\Exception $exception) {
     echo json_encode([
-                         'errno' => 1,
+                         'errno' => $exception->getCode(),
                          'msg'   => $exception->getMessage(),
                          'data'  => []
                      ]);
